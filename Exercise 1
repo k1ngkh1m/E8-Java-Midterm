@@ -1,0 +1,44 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class LockerApplication extends JFrame {
+    private JPasswordField passwordField;
+    private JButton enterButton;
+    private JLabel statusLabel;
+
+    private String savedPassword;
+    private boolean passwordSet = false;
+    public LockerApplication() {
+        setTitle("Locker Application");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(300, 150);
+        passwordField = new JPasswordField(20);
+        enterButton = new JButton("Enter");
+        statusLabel = new JLabel("Enter your password:");
+        enterButton.addActionListener(e -> {
+            String enteredPassword = new String(passwordField.getPassword());
+            if (!passwordSet) {
+                savedPassword = enteredPassword;
+                passwordSet = true;
+                statusLabel.setText("Password Set");
+            } else {
+                if (enteredPassword.equals(savedPassword)) {
+                    statusLabel.setText("Correct Password");
+                } else {
+                    statusLabel.setText("Incorrect Password");
+              }
+        }
+            passwordField.setText("");
+        });
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.add(statusLabel, BorderLayout.NORTH);
+        panel.add(passwordField, BorderLayout.CENTER);
+        panel.add(enterButton, BorderLayout.SOUTH);
+        add(panel);
+        setVisible(true);
+    }
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(LockerApplication::new);
+    }
+}
